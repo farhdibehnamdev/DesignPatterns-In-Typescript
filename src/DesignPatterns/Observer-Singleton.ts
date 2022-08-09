@@ -17,6 +17,16 @@ class EventService {
   public emit(value: string) {
     this.notifyListeners(value);
   }
+
+  public subscribe(listener: Listener): Unsubscribe {
+    this.listeners.push(listener);
+    return {
+      unsubscribe: () => {
+        this.listeners = this.listeners.filter((other) => other !== listener);
+      },
+    };
+  }
+
   private notifyListeners(value: string) {
     throw new Error("Method not implemented.");
   }
